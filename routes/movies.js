@@ -1,8 +1,5 @@
-const express = require('express')
-require ('dotenv').config();
-const app = express()
-const port = process.env.PORT;
-const moviesRouter = require('./routes/movies');
+const express = require ('express');
+const router = express.Router();
 //define movies
 const movies =[
     {
@@ -41,14 +38,21 @@ const movies =[
         genre : 'Scifi/Action'
     }
 ]
-const Logger = (req,res,next)=>{
-    console.log(`${req.method} request received on ${req.url}`);
-    next();
-}
-//Middleware
-app.use(express.json());
-//Logger
-app.use(Logger);
-app.get('/', (req, res) => res.send('Welcome to Movie API!'));
-app.use('/api/movies',moviesRouter);
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+//add movie
+router.post('/',(req,res)=>{
+    // console.log(req.body);
+    movies.push(req.body);
+    res.send('Movie added successfully').status(200);
+})
+//get movies
+router.get('/',(req,res)=>{
+    console.log('This is from Movies Route')
+    res.send(movies);
+})
+//get movie by Id
+router.get('/:id',(req,res)=>{
+    const id = req.params.id;
+    const filtered = movies.filter(movie=>movie.id==id);
+    res.send(filtered);
+})
+module.exports= router;
