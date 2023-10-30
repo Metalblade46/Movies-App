@@ -39,7 +39,7 @@ const router = express.Router();
 //     }
 // ]
 //add movie
-const Movie = require ('./models/Movie');
+const Movie = require ('../models/Movie');
 
 router.post('/',async(req,res)=>{
     // console.log(req.body);
